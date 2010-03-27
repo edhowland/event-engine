@@ -1,6 +1,6 @@
 = event-engine
 
-Description goes here.
+A Pure-Ruby event dispatcher. This does not rely on any OS level generated events that would likely need a C wrapper module. Your application can generate its own events and then dispatch to handlers. 
 
 == Note on Patches/Pull Requests
  
