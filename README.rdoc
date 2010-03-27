@@ -2,6 +2,33 @@
 
 A Pure-Ruby event dispatcher. This does not rely on any OS level generated events that would likely need a C wrapper module. Your application can generate its own events and then dispatch to handlers. 
 
+= Install
+
+- Prerequisite: Ruby 1.9. This library rely's om Fibers. Should work with the backported Fiber library for 1.8
+
+sudo gem install event-engine
+
+= Usage
+
+require "event-engine"
+
+module Dirtree
+  include AlwaysInterested
+  def handle event
+    puts event.to_s
+  end
+end
+
+eng = EventEngine::Engine.new
+
+eng.run do |en|
+  en.handle Dirtree
+end
+
+Dir['../**/*'].each {|l| eng.trigger l}
+
+produces recursive listing of directory tree
+
 == Note on Patches/Pull Requests
  
 * Fork the project.
