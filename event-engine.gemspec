@@ -58,6 +58,7 @@ Gem::Specification.new do |s|
      "doc/js/jquery.js",
      "doc/method_list.html",
      "doc/top-level-namespace.html",
+     "event-engine.gemspec",
      "example/dirtree.rb",
      "features/event-engine.feature",
      "features/step_definitions/event-engine_steps.rb",
