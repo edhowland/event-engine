@@ -10,22 +10,22 @@ sudo gem install event-engine
 
 = Usage
 
-require "event-engine"
+  require "event-engine"
 
-module Dirtree
-  include AlwaysInterested
-  def handle event
-    puts event.to_s
+  module Dirtree
+    include AlwaysInterested
+    def handle event
+      puts event.to_s
+    end
   end
-end
 
-eng = EventEngine::Engine.new
+  eng = EventEngine::Engine.new
 
-eng.run do |en|
-  en.handle Dirtree
-end
+  eng.run do |en|
+    en.handle Dirtree
+  end
 
-Dir['../**/*'].each {|l| eng.trigger l}
+  Dir['../**/*'].each {|l| eng.trigger l}
 
 produces recursive listing of directory tree
 

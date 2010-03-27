@@ -1,5 +1,5 @@
 LICENSE 68dbccdc6ba7dcfe4c195b3ae12aff695d0b7904
-README.rdoc 7acdc9d73a2fc5f02a69bf682c74f9a293d7b83c
+README.rdoc 72b9beb77d6802259e5439b35c345fce184889c6
 lib/event-engine.rb 51fef8e7a808f423713d862ef414b12dee6f0922
 features/event-engine.feature 7a9a2fe2ea383b48c18356b8822ae67caaa20e02
 lib/event-engine/event_engine.rb b9dc5e3111d19796bcbdc42628e13ed544092117
