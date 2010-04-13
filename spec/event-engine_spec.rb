@@ -136,9 +136,52 @@ describe "EventEngine" do
         ev.flag.should_not be_nil
       end
     end
-    describe "chaining proc handlers" do
+    describe "returning event from handler" do
+      class Ev1; attr_accessor :flag; end
       before(:each) do
-       
+        @ev = Ev1.new
+      end
+      it "should grt initial event" do
+        @eng.setup do |e|
+          e.handle ->(ev) {raise StandardError.new unless ev}
+        end
+        @eng.trigger @ev
+      end
+      it "should return event from first handler returning nil" do
+        @eng.setup do |e|
+          e.handle ->(ev) {nil}
+          e.handle ->(ev) {raise StandardError.new unless ev}
+        end
+        @eng.trigger @ev
+      end
+      it "should return event when triggered w/nil" do
+        @eng.setup do |e|
+          e.handle ->(ev) {Ev1.new}
+          e.handle ->(ev) {raise StandardError.new unless ev.kind_of? Ev1}
+        end
+        @eng.trigger nil
+      end
+    end
+    describe "chaining proc handlers" do
+      class Event2
+        attr_accessor :count
+        def initialize; @count = 1; end
+        def incr
+          @count += 1
+        end
+      end
+      before(:each) do
+       @eng.setup do |en|
+        en.handle ->(ev) {Event2.new}
+        en.handle ->(ev) {ev.should_not be_nil; ev}
+        en.handle ->(ev) {ev.should be_kind_of(Event2); ev}
+        en.handle ->(ev) {ev.incr; ev}
+        en.handle ->(ev) {puts ev.count; ev}
+        en.handle ->(ev) {raise StandardError.new unless ev.count==2}
+       end
+      end
+      it "should bypass the event and return its own" do
+        ->{@eng.trigger Event2.new}.should_not raise_error
       end
     end
   end
