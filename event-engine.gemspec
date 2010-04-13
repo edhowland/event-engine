@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{event-engine}
-  s.version = "0.1.0"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ed Howland"]
-  s.date = %q{2010-03-27}
+  s.date = %q{2010-04-13}
   s.description = %q{Pure Ruby Event Dispatcher}
   s.email = %q{ed.howland@gmail.com}
   s.extra_rdoc_files = [
@@ -33,7 +33,6 @@ Gem::Specification.new do |s|
      ".yardoc/objects/EventEngine/Engine/handlers_3D_i.dat",
      ".yardoc/objects/EventEngine/Engine/handlers_i.dat",
      ".yardoc/objects/EventEngine/Engine/initialize_i.dat",
-     ".yardoc/objects/EventEngine/Engine/run_i.dat",
      ".yardoc/objects/EventEngine/Engine/trigger_i.dat",
      ".yardoc/objects/root.dat",
      ".yardoc/proxy_types",
@@ -44,6 +43,7 @@ Gem::Specification.new do |s|
      "doc/AlwaysInterested.html",
      "doc/EventEngine.html",
      "doc/EventEngine/Engine.html",
+     "doc/EventEngine/Proc.html",
      "doc/_index.html",
      "doc/class_list.html",
      "doc/css/common.css",
@@ -59,12 +59,14 @@ Gem::Specification.new do |s|
      "doc/method_list.html",
      "doc/top-level-namespace.html",
      "event-engine.gemspec",
-     "example/dirtree.rb",
+     "examples/dirtree.rb",
+     "examples/t.rb",
      "features/event-engine.feature",
      "features/step_definitions/event-engine_steps.rb",
      "features/support/env.rb",
      "lib/event-engine.rb",
      "lib/event-engine/event_engine.rb",
+     "lib/event-engine/proc.rb",
      "spec/event-engine_spec.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb"
@@ -76,7 +78,9 @@ Gem::Specification.new do |s|
   s.summary = %q{Pure Ruby Event Dispatcher}
   s.test_files = [
     "spec/event-engine_spec.rb",
-     "spec/spec_helper.rb"
+     "spec/spec_helper.rb",
+     "examples/dirtree.rb",
+     "examples/t.rb"
   ]
 
   if s.respond_to? :specification_version then
