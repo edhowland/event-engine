@@ -3,7 +3,8 @@ Feature: something something
   A user something something
   something something something
 
-  Scenario: something something
-    Given inspiration
-    When I create a sweet new gem
-    Then everyone should see how awesome I am
+  Scenario: Simple Event handler
+    Given I have an Event Engine
+    And I tell it to handle all events with a Proc
+    When I trigger an event
+    Then The proc should fire

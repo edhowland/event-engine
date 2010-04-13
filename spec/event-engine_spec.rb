@@ -20,7 +20,7 @@ describe "EventEngine" do
   
   before(:each) do
     @eng = EventEngine::Engine.new
-    @eng.run do |em|
+    @eng.setup do |em|
       em.handle SimpleHanlder 
     end
   end
@@ -74,7 +74,7 @@ describe "EventEngine" do
       end
     end
     before(:each) do
-      @eng.run do |en|
+      @eng.setup do |en|
         en.handle StartChain
         en.handle EndChain
       end
@@ -96,6 +96,50 @@ describe "EventEngine" do
       @eng.trigger Object.new
       @eng.trigger Object.new
       @eng.eventq.should be_empty
+    end
+  end
+  describe "Proc handlers" do
+    before(:each) do
+      @eng=EventEngine::Engine.new
+    end
+    it "should take a Module as a handler" do
+      module Test
+        def handle event
+        end
+      end
+      @eng.setup do |en|
+        en.handle Test
+      end
+    end
+    it "should take a proc as a handler" do
+      @eng.setup do |e|
+        e.handle -> {1}
+      end
+    end
+    it "should handle a as a Proc acceptiing an event" do
+      @eng.setup do |e|
+        e.handle ->(e) {e}
+      end
+    end
+    describe "handle as a Proc" do
+      class Event1
+        attr_accessor :flag
+      end
+      before(:each) do
+        @eng.setup do |e|
+          e.handle ->(ev) {ev.flag=true}
+        end
+      end
+      it "should see flag is not nil after trigger" do
+        ev=Event1.new
+        @eng.trigger ev
+        ev.flag.should_not be_nil
+      end
+    end
+    describe "chaining proc handlers" do
+      before(:each) do
+       
+      end
     end
   end
 end

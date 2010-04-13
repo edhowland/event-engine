@@ -7,9 +7,16 @@ module EventEngine
       @fiber = nil
     end
     def handle handler
-      @handlers.push Object.new.extend handler
+      if handler.kind_of? Module
+        @handlers.push Object.new.extend handler
+      elsif handler.respond_to? :call
+        @handlers.push handler.extend EventEngine::Proc
+      else
+        raise StandardError.new 'nyi'
+        @handlers.push handler
+      end
     end
-    def run &block
+    def setup &block
       @handlers.clear
       @fiber = Fiber.new do
         loop do
