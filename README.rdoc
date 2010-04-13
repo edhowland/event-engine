@@ -12,23 +12,19 @@ sudo gem install event-engine
 
   require "event-engine"
 
-  module Dirtree
-    include AlwaysInterested
-    def handle event
-      puts event.to_s
-      event
-    end
-  end
-
   eng = EventEngine::Engine.new
 
   eng.setup do |en|
-    en.handle Dirtree
+    en.handle ->(ev) {puts ev.to_s}
   end
 
   Dir['../**/*'].each {|l| eng.trigger l}
 
 produces recursive listing of directory tree
+
+Setting up a handler can take either a Proc or a Module with at least 2 methods defined, interested?(ev) and handle(ev). Events are chained from one handler to the next. The order of execution is FIFO.
+
+Procs are (currently) defined as being interested in all events.
 
 == Note on Patches/Pull Requests
  
