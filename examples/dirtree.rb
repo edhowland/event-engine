@@ -4,17 +4,11 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require "event-engine"
 
-module Dirtree
-  include AlwaysInterested
-  def handle event
-    puts event.to_s
-  end
-end
-
 eng = EventEngine::Engine.new
 
-eng.run do |en|
-  en.handle Dirtree
+eng.setup do |en|
+  en.handle ->(ev) {puts ev.to_s}
 end
 
+# walk tree triggering events for each node
 Dir['../**/*'].each {|l| eng.trigger l}
