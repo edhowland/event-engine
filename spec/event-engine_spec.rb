@@ -154,13 +154,6 @@ describe "EventEngine" do
         end
         @eng.trigger @ev
       end
-      it "should return event when triggered w/nil" do
-        @eng.setup do |e|
-          e.handle ->(ev) {Ev1.new}
-          e.handle ->(ev) {raise StandardError.new unless ev.kind_of? Ev1}
-        end
-        @eng.trigger nil
-      end
     end
     describe "chaining proc handlers" do
       class Event2
