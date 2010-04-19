@@ -22,7 +22,6 @@ module EventEngine
       elsif handler.respond_to? :call
         @handlers.push handler.extend EventEngine::Proc
       else
-        # raise StandardError.new 'nyi'
         @handlers.push handler
       end
     end
@@ -37,28 +36,38 @@ module EventEngine
       yield self
     end
     
-    def dispatch event
-      @handlers.select {|h| h.interested? event}.inject(event) {|ev, h| h.handle ev}
+    def subscribers(event)
+      @handlers.select {|h| h.interested? event}
     end
     
+    def dispatch event
+      subscribers(event).inject(event) {|ev, h| h.handle ev}
+    end
     
     def trigger event
       @eventq.push event
       event = @fiber.resume
       dispatch event
     end
-
-    def remove_prefix string
-      string[3..-1]
-    end
     
-    def method_missing(name, *args, &block)
-      o=Object.new.extend MethodMaker
-      o.create_method o.predicate(:interested) do |event|
-        event.name == name[3..-1]
-      end
-      o.create_method :handle, &block
+    class OnHandler
+      attr :name, :proc
       
+      def initialize(name, proc)
+        @name=name
+        @proc=proc
+      end
+      def interested?(event)
+        event.name == @name
+      end
+      def handle event
+        @proc.call(event)
+        event
+      end
+    end
+    def method_missing(name, *args, &block)
+      o=OnHandler.new(name[3..-1], block)
+
       handle o
     end
   end

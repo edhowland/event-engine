@@ -169,7 +169,7 @@ describe "EventEngine" do
         en.handle ->(ev) {ev.should_not be_nil; ev}
         en.handle ->(ev) {ev.should be_kind_of(Event2); ev}
         en.handle ->(ev) {ev.incr; ev}
-        en.handle ->(ev) {puts ev.count; ev}
+        en.handle ->(ev) {ev}
         en.handle ->(ev) {raise StandardError.new unless ev.count==2}
        end
       end
