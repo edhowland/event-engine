@@ -57,8 +57,15 @@ module EventEngine
         @name=name
         @proc=proc
       end
+      def pred!
+        (@name + '?').to_sym 
+      end
       def interested?(event)
-        event.name == @name
+        if event.respond_to?(:name)
+          event.name == @name
+        elsif event.respond_to?(pred!)
+          event.send pred!
+        end
       end
       def handle event
         @proc.call(event)

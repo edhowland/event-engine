@@ -108,4 +108,48 @@ describe "On Prifix" do
     st.started?.should be_true
     ed.ended?.should be_true
   end
+  
+  class FileSysEvent
+    attr :dir, :file
+    def initialize(file_or_dir)
+      @dir = file_or_dir == :dir
+      @file = file_or_dir == :file
+    end
+    def file?
+      @file
+    end
+    def directory?
+      @dir
+    end      
+  end
+  
+  it "should fire on dir predicate" do
+    @was_dir = false
+    @eng.setup do |e|
+      e.on_directory {|ev| @was_dir=true}
+    end
+    @eng.trigger FileSysEvent.new(:dir)
+    @was_dir.should be_true
+  end
+  it "should fire on file predicate" do
+    @was_file = false
+    @eng.setup do |e|
+      e.on_file {|ev| @was_file=true}
+    end
+    @eng.trigger FileSysEvent.new(:file)
+    @was_file.should be_true
+  end
+  it "should handle both file and dir predicates" do
+    @was_dir = false
+    @was_file = false
+    @eng.setup do |e|
+      e.on_directory {|ev| @was_dir=true}
+      e.on_file {|ev| @was_file=true}
+    end
+    @eng.trigger FileSysEvent.new(:dir)
+    @eng.trigger FileSysEvent.new(:file)
+
+    @was_dir.should be_true
+    @was_file.should be_true
+  end
 end
