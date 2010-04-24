@@ -7,8 +7,9 @@ require "event-engine"
 eng = EventEngine::Engine.new
 
 eng.setup do |en|
-  # en.on_file {|ev| }
-  en.handle ->(ev) {puts ev.to_s}
+  en.on_file {|ev| puts "file: " + ev.to_s}
+  en.on_directory {|ev| puts "dir: " + ev.to_s}
+  # en.handle ->(ev) {puts ev.to_s}
 end
 
 # walk tree triggering events for each node

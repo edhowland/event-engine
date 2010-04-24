@@ -9,22 +9,46 @@ A Pure-Ruby dispatcher for writing eventful programs. This does not depend on an
 sudo gem install event-engine
 
 = Usage
-
+  require "pathname"
   require "event-engine"
 
   eng = EventEngine::Engine.new
 
   eng.setup do |en|
-    en.handle ->(ev) {puts ev.to_s}
+    en.on_file {|ev| puts "file: " + ev.to_s}
+    en.on_directory {|ev| puts "dir: " + ev.to_s}
   end
 
-  Dir['../**/*'].each {|l| eng.trigger l}
+  # walk tree triggering events for each node
+  Dir['../**/*'].each {|l| eng.trigger Pathname.new(l)}
 
 produces recursive listing of directory tree
 
-Setting up a handler can take either a Proc or a Module with at least 2 methods defined, interested?(ev) and handle(ev). Events are chained from one handler to the next. The order of execution is FIFO.
+Setting up a handler can take either a Proc or a Module with at least 2 methods defined, interested?(ev) and handle(ev). Or it can take a "on_xxxx" method which combines the filter and is passed a bloxk that handles the event. 
+
+If a module, then the handle method must return the event, possibly modifying it first. Bare procs and "on_xxxx" handlers automatically return the event so there is no need to do it in the proc/block.
+
+Events are chained from one handler to the next. The order of execution is FIFO.
+
+Modules must state their interest in an event with interested?(ev). Or they can include AlwaysInterested to see all events. 
 
 Procs are (currently) defined as being interested in all events.
+
+on_xxxx style events are subscribed to events that match the suffix of "on_xxxx". These look fir matching events based on either the name or a matching predicate. E.g.:
+  class Event
+    def name; "cool"; end
+  end
+  
+  eng.on_cool {|ev| puts in cool}
+  
+Or for predicates:
+
+  # class Pathname.directory? and .file?
+  
+  eng.on_dir {|ev| puts "dir: #{ev.to_s}"}
+  eng.on_file {|ev| puts "file: #{ev.to_s}"}
+
+Or make your own event type. It should have either a name method/attribute or a predicate. 
 
 == Note on Patches/Pull Requests
  
