@@ -26,8 +26,8 @@ Feature: Processing Events with EventEngine
   Scenario: Event handler on_prefix using predicates fir directory tree
     Given I have an Event Engine
     And I give it predicate on_file with '{|ev| @last_stdout << "file #{ev.to_s}\n"}'
-    And I give it predicate on_directory with '{|ev| puts "in dir"; @last_stdout <<  "directory  #{ev.to_s}\n"}'
-    And show me the evals
+    And I give it predicate on_directory with '{|ev| puts "in dir"; @last_stdout <<  "directory #{ev.to_s}\n"}'
+    # And show me the evals
     And I tell it to setup those handlers
     And I have the following directory structure
       |dir | file |
@@ -37,14 +37,14 @@ Feature: Processing Events with EventEngine
     Then the following files should exist:
       | ruby/1.8/file.rb |
       | ruby/1.9/file.rb |
-    
+    When I cd to "." 
     When I trigger using a Dir
     Then I should see:
       """
       directory ruby
-      directory 1.8
-      file file.rb
-      directory 1.9
-      file file.rb
+      directory ruby/1.8
+      file ruby/1.8/file.rb
+      directory ruby/1.9
+      file ruby/1.9/file.rb
       """
     

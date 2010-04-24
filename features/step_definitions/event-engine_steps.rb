@@ -106,8 +106,7 @@ Given /^I have the following directory structure$/ do |table|
 end
 
 When /^I trigger using a Dir$/ do
-  Dir['tmp/**/*'].each {|d| puts d; @engine.ttigger Pathname.new(d)}
-  announce "last stdout #{@last_stdout}"
-  announce @engine.handlers[1].handle Pathname.new('tmp/aruba/ruby/1.9')
-  announce "last stdout #{@last_stdout}"
+  Dir.chdir "tmp/aruba" do |dir|
+    Dir['**/*'].each {|d|  @engine.trigger Pathname.new(d)}
+  end
 end
