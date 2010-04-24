@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ed Howland"]
-  s.date = %q{2010-04-14}
+  s.date = %q{2010-04-24}
   s.description = %q{Pure Ruby Event Dispatcher}
   s.email = %q{ed.howland@gmail.com}
   s.extra_rdoc_files = [
@@ -40,6 +40,7 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "VERSION",
+     "dbg.rb",
      "doc/AlwaysInterested.html",
      "doc/EventEngine.html",
      "doc/EventEngine/Engine.html",
@@ -60,6 +61,7 @@ Gem::Specification.new do |s|
      "doc/top-level-namespace.html",
      "event-engine.gemspec",
      "examples/dirtree.rb",
+     "examples/on_proc.rb",
      "examples/t.rb",
      "features/event-engine.feature",
      "features/step_definitions/event-engine_steps.rb",
@@ -67,9 +69,18 @@ Gem::Specification.new do |s|
      "lib/event-engine.rb",
      "lib/event-engine/event_engine.rb",
      "lib/event-engine/proc.rb",
+     "spec/ev.rb.rb",
      "spec/event-engine_spec.rb",
+     "spec/on_prefix_spec.rb",
      "spec/spec.opts",
-     "spec/spec_helper.rb"
+     "spec/spec_helper.rb",
+     "st.rb",
+     "tmp/aruba/ruby/1.8/file.rb",
+     "tmp/aruba/ruby/1.9/file.rb",
+     "tmp/ruby/1,
+    8/file.rb",
+     "tmp/ruby/1,
+    9/file.rb"
   ]
   s.homepage = %q{http://github.com/edhowland/event-engine}
   s.rdoc_options = ["--charset=UTF-8"]
@@ -77,9 +88,12 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{Pure Ruby Event Dispatcher}
   s.test_files = [
-    "spec/event-engine_spec.rb",
+    "spec/ev.rb.rb",
+     "spec/event-engine_spec.rb",
+     "spec/on_prefix_spec.rb",
      "spec/spec_helper.rb",
      "examples/dirtree.rb",
+     "examples/on_proc.rb",
      "examples/t.rb"
   ]
 
